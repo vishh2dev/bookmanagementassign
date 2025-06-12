@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useEffect } from "react";
 import {
   Dialog,
   DialogTitle,
@@ -10,31 +10,31 @@ import {
   MenuItem,
   Box,
   Typography,
-} from '@mui/material';
-import { useFormik } from 'formik';
-import * as Yup from 'yup';
+} from "@mui/material";
+import { useFormik } from "formik";
+import * as Yup from "yup";
 
 const validationSchema = Yup.object({
-  title: Yup.string().required('Title is required'),
-  author: Yup.string().required('Author is required'),
-  genre: Yup.string().required('Genre is required'),
+  title: Yup.string().required("Title is required"),
+  author: Yup.string().required("Author is required"),
+  genre: Yup.string().required("Genre is required"),
   publishedYear: Yup.number()
-    .required('Published year is required')
-    .min(1000, 'Invalid year')
-    .max(new Date().getFullYear(), 'Year cannot be in the future'),
-  status: Yup.string().required('Status is required'),
-  imageUrl: Yup.string().url('Must be a valid URL').optional(),
+    .required("Published year is required")
+    .min(1000, "Invalid year")
+    .max(new Date().getFullYear(), "Year cannot be in the future"),
+  status: Yup.string().required("Status is required"),
+  imageUrl: Yup.string().url("Must be a valid URL").optional(),
 });
 
 const BookFormModal = ({ open, onClose, onSubmit, initialData }) => {
   const formik = useFormik({
     initialValues: {
-      title: '',
-      author: '',
-      genre: '',
+      title: "",
+      author: "",
+      genre: "",
       publishedYear: new Date().getFullYear(),
-      status: 'Available',
-      imageUrl: '',
+      status: "Available",
+      imageUrl: "",
     },
     validationSchema,
     onSubmit: (values) => {
@@ -51,12 +51,19 @@ const BookFormModal = ({ open, onClose, onSubmit, initialData }) => {
     }
   }, [initialData]);
 
-  const genres = ['Fiction', 'Non-Fiction', 'Mystery', 'Science Fiction', 'Romance', 'Biography'];
-  const statuses = ['Available', 'Issued'];
+  const genres = [
+    "Fiction",
+    "Non-Fiction",
+    "Mystery",
+    "Science Fiction",
+    "Romance",
+    "Biography",
+  ];
+  const statuses = ["Available", "Issued"];
 
   return (
-    <Dialog 
-      open={open} 
+    <Dialog
+      open={open}
       onClose={onClose}
       maxWidth="sm"
       fullWidth
@@ -64,12 +71,12 @@ const BookFormModal = ({ open, onClose, onSubmit, initialData }) => {
         sx: {
           borderRadius: 2,
           boxShadow: 3,
-        }
+        },
       }}
     >
       <DialogTitle>
-        <Typography variant="h6" component="div" sx={{ fontWeight: 'medium' }}>
-          {initialData ? 'Edit Book' : 'Add New Book'}
+        <Typography variant="h6" component="div" sx={{ fontWeight: "medium" }}>
+          {initialData ? "Edit Book" : "Add New Book"}
         </Typography>
       </DialogTitle>
       <form onSubmit={formik.handleSubmit}>
@@ -127,8 +134,13 @@ const BookFormModal = ({ open, onClose, onSubmit, initialData }) => {
                 type="number"
                 value={formik.values.publishedYear}
                 onChange={formik.handleChange}
-                error={formik.touched.publishedYear && Boolean(formik.errors.publishedYear)}
-                helperText={formik.touched.publishedYear && formik.errors.publishedYear}
+                error={
+                  formik.touched.publishedYear &&
+                  Boolean(formik.errors.publishedYear)
+                }
+                helperText={
+                  formik.touched.publishedYear && formik.errors.publishedYear
+                }
                 size="small"
               />
             </Grid>
@@ -158,7 +170,9 @@ const BookFormModal = ({ open, onClose, onSubmit, initialData }) => {
                 name="imageUrl"
                 value={formik.values.imageUrl}
                 onChange={formik.handleChange}
-                error={formik.touched.imageUrl && Boolean(formik.errors.imageUrl)}
+                error={
+                  formik.touched.imageUrl && Boolean(formik.errors.imageUrl)
+                }
                 helperText={formik.touched.imageUrl && formik.errors.imageUrl}
                 size="small"
               />
@@ -169,13 +183,13 @@ const BookFormModal = ({ open, onClose, onSubmit, initialData }) => {
           <Button onClick={onClose} color="inherit">
             Cancel
           </Button>
-          <Button 
-            type="submit" 
-            variant="contained" 
+          <Button
+            type="submit"
+            variant="contained"
             color="primary"
             disabled={formik.isSubmitting}
           >
-            {initialData ? 'Update' : 'Add'}
+            {initialData ? "Update" : "Add"}
           </Button>
         </DialogActions>
       </form>
@@ -183,4 +197,4 @@ const BookFormModal = ({ open, onClose, onSubmit, initialData }) => {
   );
 };
 
-export default BookFormModal; 
+export default BookFormModal;
