@@ -1,5 +1,5 @@
-import { useState, useMemo, useCallback, useEffect } from 'react';
-import { useSearchParams } from 'react-router-dom';
+import { useState, useMemo, useCallback } from "react";
+import { useSearchParams } from "react-router-dom";
 import {
   Container,
   Grid,
@@ -8,8 +8,8 @@ import {
   Box,
   Pagination,
 } from "@mui/material";
-import AddIcon from '@mui/icons-material/Add';
-import toast from 'react-hot-toast';
+import AddIcon from "@mui/icons-material/Add";
+import toast from "react-hot-toast";
 import { useBooks } from "../hooks/useBooks";
 import BookCard from "../components/BookCard";
 import Filters from "../components/Filters";
@@ -23,16 +23,15 @@ const ManageBooks = () => {
     useBooks();
   const [searchParams, setSearchParams] = useSearchParams();
 
-  const search = searchParams.get('search') || '';
-  const genreFilter = searchParams.get('genre') || '';
-  const statusFilter = searchParams.get('status') || '';
-  const page = Number(searchParams.get('page') || 1);
+  const search = searchParams.get("search") || "";
+  const genreFilter = searchParams.get("genre") || "";
+  const statusFilter = searchParams.get("status") || "";
+  const page = Number(searchParams.get("page") || 1);
 
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isDeleteDialogOpen, setIsDeleteDialogOpen] = useState(false);
   const [selectedBook, setSelectedBook] = useState(null);
 
-  
   const booksPerPage = 10;
 
   const filteredAndSearchedBooks = useMemo(() => {
@@ -46,59 +45,70 @@ const ManageBooks = () => {
     });
   }, [books, search, genreFilter, statusFilter]);
 
-
   const startIndex = (page - 1) * booksPerPage;
   const endIndex = startIndex + booksPerPage;
   const paginatedBooks = filteredAndSearchedBooks.slice(startIndex, endIndex);
 
   const totalPages = Math.ceil(filteredAndSearchedBooks.length / booksPerPage);
 
-  const handleSearchChange = useCallback((value) => {
-    setSearchParams(prev => {
-      const params = new URLSearchParams(prev);
-      if (value) {
-        params.set('search', value);
-      } else {
-        params.delete('search');
-      }
-      params.set('page', '1');
-      return params;
-    });
-  }, [setSearchParams]);
+  const handleSearchChange = useCallback(
+    (value) => {
+      setSearchParams((prev) => {
+        const params = new URLSearchParams(prev);
+        if (value) {
+          params.set("search", value);
+        } else {
+          params.delete("search");
+        }
+        params.set("page", "1");
+        return params;
+      });
+    },
+    [setSearchParams]
+  );
 
-  const handleGenreChange = useCallback((value) => {
-    setSearchParams(prev => {
-      const params = new URLSearchParams(prev);
-      if (value) {
-          params.set('genre', value);
-      } else {
-          params.delete('genre');
-      }
-      params.set('page', '1');
-      return params;
-    });
-  }, [setSearchParams]);
+  const handleGenreChange = useCallback(
+    (value) => {
+      setSearchParams((prev) => {
+        const params = new URLSearchParams(prev);
+        if (value) {
+          params.set("genre", value);
+        } else {
+          params.delete("genre");
+        }
+        params.set("page", "1");
+        return params;
+      });
+    },
+    [setSearchParams]
+  );
 
-  const handleStatusChange = useCallback((value) => {
-    setSearchParams(prev => {
-      const params = new URLSearchParams(prev);
-      if (value) {
-          params.set('status', value);
-      } else {
-          params.delete('status');
-      }
-      params.set('page', '1'); 
-      return params;
-    });
-  }, [setSearchParams]);
+  const handleStatusChange = useCallback(
+    (value) => {
+      setSearchParams((prev) => {
+        const params = new URLSearchParams(prev);
+        if (value) {
+          params.set("status", value);
+        } else {
+          params.delete("status");
+        }
+        params.set("page", "1");
+        return params;
+      });
+    },
+    [setSearchParams]
+  );
 
-  const handlePageChange = useCallback((event, newPage) => {
-    setSearchParams(prev => {
-      const params = new URLSearchParams(prev);
-      params.set('page', String(newPage));
-      return params;
-    });
-  }, [setSearchParams]);
+  const handlePageChange = useCallback(
+    (event, newPage) => {
+      setSearchParams((prev) => {
+        const params = new URLSearchParams(prev);
+        params.set("page", String(newPage));
+        return params;
+      });
+    },
+    [setSearchParams]
+  );
 
   const handleAddBook = useCallback(() => {
     setSelectedBook(null);
@@ -115,28 +125,30 @@ const ManageBooks = () => {
     setIsDeleteDialogOpen(true);
   }, []);
 
-  const handleModalSubmit = useCallback((data) => {
-    if (selectedBook) {
-    
-      const updatedBookPayload = {
-        ...selectedBook, 
-        ...data,        
-      };
+  const handleModalSubmit = useCallback(
+    (data) => {
+      if (selectedBook) {
+        const updatedBookPayload = {
+          ...selectedBook,
+          ...data,
+        };
 
-      updateBook({ id: selectedBook.id, book: updatedBookPayload });
-      toast.success('Book updated successfully!');
-    } else {
-      createBook(data);
-      toast.success('Book added successfully!');
-    }
-    setIsModalOpen(false);
-  }, [selectedBook, createBook, updateBook]);
+        updateBook({ id: selectedBook.id, book: updatedBookPayload });
+        toast.success("Book updated successfully!");
+      } else {
+        createBook(data);
+        toast.success("Book added successfully!");
+      }
+      setIsModalOpen(false);
+    },
+    [selectedBook, createBook, updateBook]
+  );
 
   const handleDeleteConfirm = useCallback(() => {
     if (selectedBook) {
       deleteBook(selectedBook.id);
       setIsDeleteDialogOpen(false);
-      toast.success('Book deleted successfully!');
+      toast.success("Book deleted successfully!");
     }
   }, [selectedBook, deleteBook]);
 
@@ -165,9 +177,9 @@ const ManageBooks = () => {
             startIcon={<AddIcon />}
             sx={{
               borderRadius: 2,
-              textTransform: 'none',
+              textTransform: "none",
               px: 3,
-              width: { xs: '100%', sm: 'auto' }
+              width: { xs: "100%", sm: "auto" },
             }}
           >
             Add Book
@@ -187,12 +199,9 @@ const ManageBooks = () => {
       {paginatedBooks.length === 0 ? (
         <NoResultsFound message="No books found" />
       ) : (
-        <Grid container spacing={3} sx={{ width: '100%', m: 0 }}>
+        <Grid container spacing={3} sx={{ width: "100%", m: 0 }}>
           {paginatedBooks.map((book) => (
-            <Grid 
-              key={book.id}
-              size={{ xs: 12, sm: 6 }}
-            >
+            <Grid key={book.id} size={{ xs: 12, sm: 6 }}>
               <BookCard
                 book={book}
                 isEdit
@@ -205,7 +214,7 @@ const ManageBooks = () => {
       )}
 
       {totalPages > 1 && (
-        <Box sx={{ display: 'flex', justifyContent: 'center', mt: 4 }}>
+        <Box sx={{ display: "flex", justifyContent: "center", mt: 4 }}>
           <Pagination
             count={totalPages}
             page={page}
