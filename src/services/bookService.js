@@ -1,13 +1,14 @@
-const API_BASE_URL = 'https://crudcrud.com/api/d9ac25dbae9d4e988a761fb8ff87ae39';
+const API_BASE_URL =
+  "https://crudcrud.com/api/bc634ecfa73047eeb80e9c65ae7e52b2";
 
 export const fetchBooks = async () => {
   const response = await fetch(`${API_BASE_URL}/books`);
   if (!response.ok) {
-    throw new Error('Failed to fetch books');
+    throw new Error("Failed to fetch books");
   }
   const data = await response.json();
   return data
-    .map(book => ({ ...book, id: book._id }))
+    .map((book) => ({ ...book, id: book._id }))
     .sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt));
 };
 
@@ -18,14 +19,14 @@ export const createBookApi = async (newBook) => {
   };
 
   const response = await fetch(`${API_BASE_URL}/books`, {
-    method: 'POST',
+    method: "POST",
     headers: {
-      'Content-Type': 'application/json',
+      "Content-Type": "application/json",
     },
     body: JSON.stringify(bookWithTimestamp),
   });
   if (!response.ok) {
-    throw new Error('Failed to create book');
+    throw new Error("Failed to create book");
   }
   return response.json();
 };
@@ -43,23 +44,23 @@ export const updateBookApi = async ({ id, book }) => {
   };
 
   const response = await fetch(`${API_BASE_URL}/books/${id}`, {
-    method: 'PUT',
+    method: "PUT",
     headers: {
-      'Content-Type': 'application/json',
+      "Content-Type": "application/json",
     },
     body: JSON.stringify(bookToUpdate),
   });
   if (!response.ok) {
-    throw new Error('Failed to update book');
+    throw new Error("Failed to update book");
   }
   return { success: true };
 };
 
 export const deleteBookApi = async (id) => {
   const response = await fetch(`${API_BASE_URL}/books/${id}`, {
-    method: 'DELETE',
+    method: "DELETE",
   });
   if (!response.ok) {
-    throw new Error('Failed to delete book');
+    throw new Error("Failed to delete book");
   }
-}; 
+};
